@@ -15,35 +15,6 @@ env:
   WIN64_FLAGS: "-DVCPKG_TARGET_TRIPLET=x64-windows-static"
 
 jobs:
-  v5-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install libogg-dev libtheora-dev libglew-dev libglfw3-dev
-      - name: Build RSDKv5 + U OGL
-        run: |
-          cmake -B build_v5 ${{env.GENERAL_FLAGS}} ${{env.GENERAL_LINUX_FLAGS}} ${{env.V5_FLAGS}}
-          cmake --build build_v5 --parallel
-          cmake -B build_v5U ${{env.GENERAL_FLAGS}} ${{env.GENERAL_LINUX_FLAGS}} ${{env.V5U_FLAGS}}
-          cmake --build build_v5U --parallel
-      # tar the executables so that they don't lose exec permissions
-      # see: https://github.com/actions/upload-artifact?tab=readme-ov-file#permission-loss
-      - name: Move artifacts
-        run: |
-          mkdir artifacts
-          mv ./build_*/RSDKv5* ./artifacts
-          tar -czvf linux.tar.gz -C ./artifacts .
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: v5-linux
-          path: linux.tar.gz
   v5-android:
     runs-on: ubuntu-latest
     steps:
