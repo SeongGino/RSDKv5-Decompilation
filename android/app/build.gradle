@@ -10,7 +10,7 @@ android {
         prefab true
     }
     defaultConfig {
-        applicationId "org.rems.rsdkv5"
+        applicationId "org.rems.rsdkv5.SM"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 100
